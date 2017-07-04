@@ -30,9 +30,23 @@ developing the walking skeleton takes a suprising amount of effort.
 
 doing initial analysis, setting up its physical and technical environments, and otherwise getting started. it isn't adding much visible functionality since almost all the work is infrastructure. One important task for iteration zero is to se the walking skeleton to test-drive the initial architecture.
 
+Iteration zero usually brings up project chartering issues as the team looks for criteria to guide its decisions, so the project's sponsors should expect to field some deep questions about its purpose.
 ### Programming by Intention
 
 working backwards from the test helps us focus on **what** we want the system to do, instead of getting caught up in the complexity of **how** we will make it work.
 
 ### One Domain at a Time
 keeping the language consistent helps us understand what's significant in this test, with a nice side effect of protecting us when the implementation inevitably changes.
+## A Minimal Fake Implementation 
+
+the fake is a minimal impelemntation just to support testing, so it can be as simple as possible. e.g: use a single instance variable `currentChat` to hold the chat object.
+
+## How to pass the failing test?
+
+- adding functionality, a tiny slice at a time, until eventually make the test pass. following this approach will makes our progress much more *predicatble*. focusing on just one aspect at a time helps us to make sure we understand it.
+- writing a small amount of **ugly** code and seeing how it falls out. it helps us to test our ideas before we've gone too bar, and sometimes the results can be surprising.
+
+## The Necessary Minimum 
+
+The point is to **design** and **validate** the initial structure of the end-to-end system -- where end-to-end includes deployment to a working environment -- to prove that our choices of packages, libraries, and tooling will actually work. A sense of urgency will help the team to **strip** the functionality down to the absolute minimum sufficient to test their assumptions. 
+

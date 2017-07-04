@@ -28,6 +28,7 @@ dependencies {
     compile 'jivesoftware:smack:3.2.1'
     compile 'jivesoftware:smackx:3.2.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     testCompile 'junit:junit:4.12'
     testCompile 'com.natpryce:hamkrest:1.4.0.0'
@@ -36,9 +37,9 @@ dependencies {
 
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.freeCompilerArgs += ['-Xno-param-assertions', '-Xno-call-assertions']
+    kotlinOptions.freeCompilerArgs += ['-Xno-param-assertions', '-Xno-call-assertions', "-Xskip-runtime-version-check", "-Xskip-metadata-version-check", "-Xmulti-platform","-Xno-check-impl"]
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.freeCompilerArgs += ['-Xno-param-assertions', '-Xno-call-assertions']
+    kotlinOptions.freeCompilerArgs += ['-Xno-param-assertions', '-Xno-call-assertions', "-Xskip-runtime-version-check", "-Xskip-metadata-version-check", "-Xmulti-platform","-Xno-check-impl"]
 }

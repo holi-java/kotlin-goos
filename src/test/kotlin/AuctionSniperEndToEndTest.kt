@@ -1,5 +1,7 @@
 @file:Suppress("MemberVisibilityCanPrivate")
 
+import auctionsniper.ApplicationRunner
+import auctionsniper.FakeAuctionServer
 import org.junit.After
 import org.junit.Test
 
@@ -9,7 +11,7 @@ class AuctionSniperEndToEndTest {
 
 
     @Test
-    fun `sniper joins an auction util auction closes`() {
+    fun `sniper joins an auction until auction closes`() {
         auction.startSellingItem()
 
         application.startBiddingIn(auction)
@@ -25,4 +27,3 @@ class AuctionSniperEndToEndTest {
     @After fun `stop application`() = application.stop()
 }
 
-;
