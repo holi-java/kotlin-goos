@@ -12,13 +12,13 @@
 
 ### Benefit
 
-- dividing the work into small, conherent chunks helps us manage the development risk.
+- dividing the work into small, coherent chunks helps us manage the development risk.
 - we get regular, concrete feedback on the progress we'are making, so we can adjust your plan as the team discovers more about the domain and the technologies.
 
 
 ## Walking Skeleton 
-developing the walking skeleton takes a suprising amount of effort.
-- decising what to do will flush out all sorts of questions about the application and its place in the world.
+developing the walking skeleton takes a surprising amount of effort.
+- deciding what to do will flush out all sorts of questions about the application and its place in the world.
 - the automation of building, packaging, and deploying into a production-like environment will flush out all sorts of technical and organizational questions.
 
 ### Benefit
@@ -39,11 +39,11 @@ working backwards from the test helps us focus on **what** we want the system to
 keeping the language consistent helps us understand what's significant in this test, with a nice side effect of protecting us when the implementation inevitably changes.
 ## A Minimal Fake Implementation 
 
-the fake is a minimal impelemntation just to support testing, so it can be as simple as possible. e.g: use a single instance variable `currentChat` to hold the chat object.
+the fake is a minimal implementation just to support testing, so it can be as simple as possible. e.g: use a single instance variable `currentChat` to hold the chat object.
 
 ## How to pass the failing test?
 
-- adding functionality, a tiny slice at a time, until eventually make the test pass. following this approach will makes our progress much more *predicatble*. focusing on just one aspect at a time helps us to make sure we understand it.
+- adding functionality, a tiny slice at a time, until eventually make the test pass. following this approach will makes our progress much more *predicable*. focusing on just one aspect at a time helps us to make sure we understand it.
 - writing a small amount of **ugly** code and seeing how it falls out. it helps us to test our ideas before we've gone too bar, and sometimes the results can be surprising.
 
 ## The Necessary Minimum 
