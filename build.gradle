@@ -30,16 +30,20 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
-    testCompile 'junit:junit:4.12'
+    testCompile('junit:junit:4.12') { exclude group: "org.hamcrest" }
+    testCompile 'org.jmock:jmock-junit4:2.8.3'
+    testCompile 'org.hamcrest:java-hamcrest:2.0.0.0'
     testCompile 'com.natpryce:hamkrest:1.4.0.0'
     testCompile 'com.googlecode.windowlicker:windowlicker-swing:r268'
 }
 
+sourceSets.test.kotlin.srcDirs += ["src/test/kotlin-unit"]
+
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.freeCompilerArgs += ['-Xno-param-assertions', '-Xno-call-assertions', "-Xskip-runtime-version-check", "-Xskip-metadata-version-check", "-Xmulti-platform","-Xno-check-impl"]
+    kotlinOptions.freeCompilerArgs += ['-Xno-param-assertions', '-Xno-call-assertions', "-Xskip-runtime-version-check", "-Xskip-metadata-version-check", "-Xmulti-platform", "-Xno-check-impl"]
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.freeCompilerArgs += ['-Xno-param-assertions', '-Xno-call-assertions', "-Xskip-runtime-version-check", "-Xskip-metadata-version-check", "-Xmulti-platform","-Xno-check-impl"]
+    kotlinOptions.freeCompilerArgs += ['-Xno-param-assertions', '-Xno-call-assertions', "-Xskip-runtime-version-check", "-Xskip-metadata-version-check", "-Xmulti-platform", "-Xno-check-impl"]
 }

@@ -4,6 +4,13 @@
 ## TDD
 - judging **where** to set the boundaries of **what** to test.
 - **how** to eventually cover everything. 
+- uses Acceptance tests to show incremental progress.
+- each acceptance test should have just enough new requirements to force a manageable increase in functionality.
+- write a high-level end-to-end test to describe **what** the system should implements.
+- write long unit test names to tell us **what** a class does.
+- extract new classes to **tease apart** fine-grained aspects of the functionality.
+- write lots of little methods to keep each layer of code at a consistent level of **abstraction**.
+- write a rough implementation to **prove** that we know **how** to make the code do **what**'s required and then we refactor.
 
 
 ## Incremental Development
@@ -71,4 +78,12 @@ The point is to **design** and **validate** the initial structure of the end-to-
 where end-to-end includes deployment to a working environment -- 
 to **prove** that our choices of packages, libraries, and tooling will actually work.
 A sense of **urgency** will help the team to **strip** the functionality down to the absolute **minimum sufficient** to test their assumptions. 
+
+
+## Outside-In Development
+
+- Test-Driven Development is to start with the outside event that triggers the behavior we want to implement and work our way into the code an object at a time, until we reach a visible effect indicating that we've achieved our goal.
+
+- Entry point is the event that triggers the next round of behavior we want to make work.
+
 

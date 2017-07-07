@@ -2,35 +2,53 @@ package auctionsniper
 
 import auctionsniper.ui.MainWindow
 import auctionsniper.ui.STATUS_BIDDING
+import auctionsniper.ui.STATUS_LOST
 import org.jivesoftware.smack.Chat
+import org.jivesoftware.smack.MessageListener
 import org.jivesoftware.smack.XMPPConnection
+import org.jivesoftware.smack.packet.Message
 import javax.swing.SwingUtilities
 
 internal const val AUCTION_RESOURCE = "Auction"
 internal const val ITEM_ID_AS_LOGIN = "auction-%s"
 internal const val JID_FORMAT = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
 
-class Main {
+val JOIN_COMMAND = aMessage { "Command:JOIN;" }
+fun bidCommand(bid: Int) = aMessage { "Command: BID; Amount: $bid" }
+inline fun aMessage(type: () -> String) = "SOLVersion: 1.1; ${type()}"
+
+class Main : AuctionEventListener {
     init {
         startUserInterface()
     }
 
     private lateinit var ui: MainWindow;
-    private var notBeGcd: Chat? = null
 
+    private var notBeGcd: Chat? = null
     private fun startUserInterface() {
         SwingUtilities.invokeAndWait { ui = MainWindow() }
     }
 
     private fun joinAuction(itemId: String, connection: XMPPConnection) {
-        val chat = connection.chatManager.createChat(itemId toAuctionId connection) { _, _ ->
-            SwingUtilities.invokeLater {
-                ui.status = STATUS_BIDDING
-            }
-        }
+        ui.whenClosed(connection::disconnect)
+
+        val chat = connection.chatManager.createChat(itemId toAuctionId connection, AuctionMessageTranslator(this))
         notBeGcd = chat;
-        chat.sendMessage("")
+        chat.sendMessage(JOIN_COMMAND)
     }
+
+    override fun currentPrice(currentPrice: Int, increment: Int) {
+        SwingUtilities.invokeLater {
+            ui.status = STATUS_BIDDING
+        }
+    }
+
+    override fun auctionClosed() {
+        SwingUtilities.invokeLater {
+            ui.status = STATUS_LOST
+        }
+    }
+
 
     companion object {
 

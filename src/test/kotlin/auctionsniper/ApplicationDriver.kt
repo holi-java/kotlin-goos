@@ -9,7 +9,7 @@ import com.objogate.wl.swing.gesture.GesturePerformer
 import org.hamcrest.CoreMatchers
 
 class ApplicationDriver(timeout: Long) :
-        JFrameDriver(GesturePerformer(), topLevelFrame(named(MAIN_WINDOW_NAME), showingOnScreen()), AWTEventQueueProber(timeout, timeout / 10)) {
+        JFrameDriver(GesturePerformer(), topLevelFrame(named(MAIN_WINDOW_NAME), showingOnScreen()), AWTEventQueueProber(timeout, 100)) {
 
     fun showsSniperStatus(status: String) {
         JLabelDriver(this, named(SNIPER_STATUS_NAME)).hasText(CoreMatchers.equalTo(status))
