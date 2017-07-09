@@ -1,9 +1,6 @@
 package auctionsniper
 
-import auctionsniper.ui.MainWindow
-import auctionsniper.ui.STATUS_BIDDING
-import auctionsniper.ui.STATUS_LOST
-import auctionsniper.ui.SwingThreadSniperListener
+import auctionsniper.ui.*
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import javax.swing.SwingUtilities
@@ -31,19 +28,22 @@ class Main {
 
         val chat = connection.chatManager.createChat(connection toAuctionId itemId, null)
         val auction = XMPPAuction(chat)
-        chat.addMessageListener(AuctionMessageTranslator(AuctionSniper(auction, SwingThreadSniperListener(SniperStateDisplayer()))))
+        chat.addMessageListener(AuctionMessageTranslator(connection.user, AuctionSniper(auction, SwingThreadSniperListener(SniperStateDisplayer()))))
         auction.join()
         notBeGcd = chat
     }
 
     inner class SniperStateDisplayer : SniperListener {
-        override fun sniperBidding() {
-            ui.status = STATUS_BIDDING
-        }
 
-        override fun sniperLost() {
-            ui.status = STATUS_LOST
-        }
+        override fun sniperBidding() = show(STATUS_BIDDING)
+
+        override fun sniperWinning() = show(STATUS_WINNING)
+
+        override fun sniperWon() = show(STATUS_WON)
+
+        override fun sniperLost() = show(STATUS_LOST)
+
+        private fun show(status: String) = let { ui.status = status }
     }
 
 

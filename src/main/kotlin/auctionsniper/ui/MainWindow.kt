@@ -41,3 +41,6 @@ class MainWindow : JFrame(SNIPER_APPLICATION_NAME) {
     }
 
 }
+
+const val STATUS_WINNING = "WINNING"
+const val STATUS_WON = "WON"

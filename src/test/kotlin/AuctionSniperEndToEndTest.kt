@@ -38,6 +38,24 @@ class AuctionSniperEndToEndTest {
         application.showsSniperHasLostAuction()
     }
 
+    @Test
+    fun `sniper wins an auction by bidding higher`() {
+        auction.startSellingItem()
+
+        application.startBiddingIn(auction)
+        auction.hasReceivedJoinRequestFromSniper(SNIPER_XMPP_ID)
+
+        auction.reportPrice(1000, 98, "other bidder")
+        application.hasShownSniperIsBidding()
+        auction.hasReceivedBid(1098, SNIPER_XMPP_ID)
+
+        auction.reportPrice(1098,100, SNIPER_XMPP_ID)
+        application.hasShownSniperIsWinning()
+
+        auction.announceClosed()
+        application.showsSniperHasWonAuction()
+    }
+
     @After fun `stop auction`() = auction.close()
 
     @After fun `stop application`() = application.stop()

@@ -13,6 +13,7 @@
 - write a rough implementation to **prove** that we know **how** to make the code do **what**'s required and then we refactor.
 - **single responsibility** principle is a very effective heuristic for breaking up complexity.
 - **how** we're growing a design from **what** looks like an unpromising start? alternate, more or less, between adding features and reflecting on - and cleaning up the code that results. we're prepared to defer refactoring code if we're not yet clear **what** to do, confident that we will take the time when we're ready. In the meantime, keep our code as clean as possible, moving in small increments and using techniques such as **null implementation** to minimize the time when it's broken.
+- makes **steady** progress by adding a little slices of functionality at a time.
 
 
 ## Incremental Development

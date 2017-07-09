@@ -1,15 +1,10 @@
 package auctionsniper
 
 import auctionsniper.FakeAuctionServer.Companion.XMPP_HOSTNAME
-import auctionsniper.ui.STATUS_BIDDING
-import auctionsniper.ui.STATUS_LOST
-import auctionsniper.ui.STATUS_JOINING
+import auctionsniper.ui.*
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.CompletableFuture.supplyAsync
 import java.util.concurrent.TimeUnit.SECONDS
-import javax.swing.SwingUtilities
 import javax.swing.SwingUtilities.invokeAndWait
-import kotlin.concurrent.thread
 
 private const val SNIPER_ID = "sniper"
 private const val SNIPER_PASSWORD = "sniper"
@@ -29,8 +24,13 @@ class ApplicationRunner {
         invokeAndWait { }
     }
 
-    fun showsSniperHasLostAuction() = driver?.showsSniperStatus(STATUS_LOST)
     fun hasShownSniperIsBidding() = driver?.showsSniperStatus(STATUS_BIDDING)
+
+    fun hasShownSniperIsWinning() = driver?.showsSniperStatus(STATUS_WINNING)
+
+    fun showsSniperHasWonAuction() =driver?.showsSniperStatus(STATUS_WON)
+
+    fun showsSniperHasLostAuction() = driver?.showsSniperStatus(STATUS_LOST)
 
     fun stop() {
         driver?.dispose()
