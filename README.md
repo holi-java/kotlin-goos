@@ -11,6 +11,8 @@
 - extract new classes to **tease apart** fine-grained aspects of the functionality.
 - write lots of little methods to keep each layer of code at a consistent level of **abstraction**.
 - write a rough implementation to **prove** that we know **how** to make the code do **what**'s required and then we refactor.
+- **single responsibility** principle is a very effective heuristic for breaking up complexity.
+- **how** we're growing a design from **what** looks like an unpromising start? alternate, more or less, between adding features and reflecting on - and cleaning up the code that results. we're prepared to defer refactoring code if we're not yet clear **what** to do, confident that we will take the time when we're ready. In the meantime, keep our code as clean as possible, moving in small increments and using techniques such as **null implementation** to minimize the time when it's broken.
 
 
 ## Incremental Development
@@ -86,4 +88,6 @@ A sense of **urgency** will help the team to **strip** the functionality down to
 
 - Entry point is the event that triggers the next round of behavior we want to make work.
 
+## Defer Decisions
 
+helps us **focus on** the immediate task without getting dragged into thinking about the next significant chunk of functionality.

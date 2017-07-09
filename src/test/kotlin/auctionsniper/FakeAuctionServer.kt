@@ -51,7 +51,7 @@ class FakeAuctionServer(val itemId: String) {
 
     fun announceClosed() = publish { aCloseEvent() }
 
-    private fun publish(event: () -> String) = currentChat.sendMessage(Message().apply { body = aMessage(event) })
+    private fun publish(event: () -> String) = currentChat.sendMessage(aMessage(event))
 
 
     private fun aCloseEvent() = "Event: CLOSE;"

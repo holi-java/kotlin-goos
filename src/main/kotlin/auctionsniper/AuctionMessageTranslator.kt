@@ -1,22 +1,44 @@
 package auctionsniper
 
+import auctionsniper.utils.capitalize
+import auctionsniper.utils.required
+import auctionsniper.utils.split
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.MessageListener
 import org.jivesoftware.smack.packet.Message
-import auctionsniper.utils.split
+import auctionsniper.AuctionEvent.Companion.CLOSE_EVENT
+import auctionsniper.AuctionEvent.Companion.PRICE_EVENT
 
 class AuctionMessageTranslator(private val listener: AuctionEventListener) : MessageListener {
 
     override fun processMessage(chat: Chat?, message: Message) {
-        val event = message.body.split(';')
-                .map { it.split(':').map { it.trim() }.toList() }
-                .associateBy({ it[0] }) { it[1] }
-
-        when (event["Event"]) {
-            "CLOSE" -> listener.auctionClosed()
-            "PRICE" -> listener.currentPrice(event["CurrentPrice"]!!.toInt(), event["Increment"]!!.toInt())
-            else -> TODO()
+        AuctionEvent.from(message.body).run {
+            when (type) {
+                CLOSE_EVENT -> listener.auctionClosed()
+                PRICE_EVENT -> listener.currentPrice(currentPrice, increment)
+                else -> TODO()
+            }
         }
     }
 
+}
+
+
+private class AuctionEvent(context: Map<String, String>) {
+    private val capitalizedToInt = context.capitalize { it!!.toInt() }
+
+    val type by context.required("Event")
+    val currentPrice by capitalizedToInt
+    val increment by capitalizedToInt
+
+    companion object {
+        const val CLOSE_EVENT = "CLOSE"
+        const val PRICE_EVENT = "PRICE"
+
+        fun from(body: String): AuctionEvent {
+            return AuctionEvent(body.fields().associateBy({ it.first() }) { it.last() })
+        }
+
+        private fun String.fields() = split(';').map { it.split(':').asSequence().map { it.trim() } }
+    }
 }

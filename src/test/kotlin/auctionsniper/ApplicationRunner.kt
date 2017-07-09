@@ -5,7 +5,10 @@ import auctionsniper.ui.STATUS_BIDDING
 import auctionsniper.ui.STATUS_LOST
 import auctionsniper.ui.STATUS_JOINING
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletableFuture.supplyAsync
 import java.util.concurrent.TimeUnit.SECONDS
+import javax.swing.SwingUtilities
+import javax.swing.SwingUtilities.invokeAndWait
 import kotlin.concurrent.thread
 
 private const val SNIPER_ID = "sniper"
@@ -18,13 +21,12 @@ class ApplicationRunner {
 
     fun startBiddingIn(auction: FakeAuctionServer) {
         startSniper(auction)
-        driver = ApplicationDriver(SECONDS.toMillis(2)).apply { showsSniperStatus(STATUS_JOINING) }
+        driver = ApplicationDriver(SECONDS.toMillis(1)).apply { showsSniperStatus(STATUS_JOINING) }
     }
 
     private fun startSniper(auction: FakeAuctionServer) {
-        CompletableFuture.supplyAsync {
-            Main.main(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD, auction.itemId)
-        }.join()
+        CompletableFuture.runAsync { Main.main(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD, auction.itemId) }.join()
+        invokeAndWait { }
     }
 
     fun showsSniperHasLostAuction() = driver?.showsSniperStatus(STATUS_LOST)
