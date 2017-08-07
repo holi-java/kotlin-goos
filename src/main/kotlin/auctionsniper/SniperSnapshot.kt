@@ -9,7 +9,10 @@ data class SniperSnapshot(val itemId: String, val lastPrice: Int, val lastBid: I
 
     val closed get() = copy(state = state.closed)
 
+    fun sameAs(other: SniperSnapshot) = itemId == other.itemId
+
     companion object {
         fun joining(itemId: String) = SniperSnapshot(itemId, 0, 0, JOINING)
+
     }
 }

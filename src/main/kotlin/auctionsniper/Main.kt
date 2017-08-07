@@ -15,7 +15,7 @@ class Main {
 
     private val snipers = SnipersTableModel()
 
-    private var notBeGcd: Chat? = null
+    private val notBeGcd: MutableList<Chat> = arrayListOf<Chat>()
 
     init {
         startUserInterface()
@@ -26,30 +26,40 @@ class Main {
     }
 
     private fun joinAuction(itemId: String, connection: XMPPConnection) {
-        ui.whenClosed(connection::disconnect)
-
+        safelyAddItemToModel(itemId)
+        
         val chat = connection.chatManager.createChat(connection toAuctionId itemId, null)
         val auction = XMPPAuction(chat)
         chat.addMessageListener(AuctionMessageTranslator(connection.user, AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers))))
         auction.join()
-        notBeGcd = chat
+        notBeGcd += chat
     }
 
+    private fun  safelyAddItemToModel(itemId: String) {
+        SwingUtilities.invokeAndWait{
+            snipers.addSniper(SniperSnapshot.joining(itemId))
+        }
+    }
+
+    private fun whenClosed(action: () -> Unit) = ui.whenClosed(action)
 
     companion object {
         private lateinit var notBeGCd: Main;
         fun main(vararg args: String): Unit {
             val main = Main()
-            val (hostname, sniper, password, itemId) = args
-            main.joinAuction(itemId, connection(hostname, sniper, password))
-
+            val (hostname, sniper, password) = args
+            val connection = connect(hostname, sniper, password)
+            main.whenClosed(connection::disconnect)
+            args.drop(3).forEach { itemId ->
+                main.joinAuction(itemId, connection)
+            }
             notBeGCd = main
         }
 
     }
 }
 
-private fun connection(hostname: String, sniper: String, password: String): XMPPConnection {
+private fun connect(hostname: String, sniper: String, password: String): XMPPConnection {
     return XMPPConnection(hostname).apply {
         connect()
         login(sniper, password, AUCTION_RESOURCE)

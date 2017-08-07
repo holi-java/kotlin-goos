@@ -2,25 +2,31 @@ package auctionsniper.ui
 
 import auctionsniper.SniperListener
 import auctionsniper.SniperSnapshot
-import auctionsniper.SniperState.JOINING
 import javax.swing.table.AbstractTableModel
 
 class SnipersTableModel : AbstractTableModel(), SniperListener {
 
-    private var snapshot: SniperSnapshot = SniperSnapshot("", 0, 0, JOINING)
-    override fun getRowCount() = 1
+    private val snapshots: MutableList<SniperSnapshot> = arrayListOf()
+    override fun getRowCount() = snapshots.size
 
     override fun getColumnCount() = Column.values().size
 
     override fun getColumnName(column: Int) = Column.at(column).columnName
 
     override fun getValueAt(rowIndex: Int, columnIndex: Int): Any {
-        return Column.at(columnIndex).valueIn(snapshot)
+        return Column.at(columnIndex).valueIn(snapshots[rowIndex])
     }
 
-    override fun sniperStateChanged(snapshot: SniperSnapshot) {
-        this.snapshot = snapshot
-        super.fireTableRowsUpdated(0, 0)
+    override fun sniperStateChanged(snapshot: SniperSnapshot) = refresh(snapshot).let { fireTableRowsUpdated(it, it) }
+
+    private fun refresh(snapshot: SniperSnapshot) = indexOf(snapshot).also { snapshots[it] = snapshot }
+
+    private fun indexOf(snapshot: SniperSnapshot) =
+            snapshots.indexOfFirst { it.sameAs(snapshot) }
+                    .also { if (it < 0) TODO("handle exception when no snapshot for updating") }
+
+    fun addSniper(snapshot: SniperSnapshot) {
+        snapshots.also { fireTableRowsInserted(it.size, it.size) } += snapshot
     }
 
     enum class Column(val columnName: String) {
@@ -44,4 +50,6 @@ class SnipersTableModel : AbstractTableModel(), SniperListener {
         abstract fun valueIn(snapshot: SniperSnapshot): Any
 
     }
+
+
 }
