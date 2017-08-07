@@ -41,6 +41,7 @@ sourceSets.test.kotlin.srcDirs += ["src/test/kotlin-unit"]
 
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.freeCompilerArgs += ['-Xno-call-assertions']
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
