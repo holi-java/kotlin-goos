@@ -2,20 +2,28 @@ package auctionsniper
 
 import auctionsniper.PriceSource.*
 
-class AuctionSniper(private val auction: Auction, private val listener: SniperListener) : AuctionEventListener {
-    private var winning = false
+class AuctionSniper(itemId: String,
+                    private val auction: Auction,
+                    private val listener: SniperListener) : AuctionEventListener {
+
+    private var snapshot: SniperSnapshot = SniperSnapshot.joining(itemId); set(value) {
+        field = value
+        listener.sniperStateChanged(value)
+    }
 
     override fun currentPrice(currentPrice: Int, increment: Int, source: PriceSource) {
-        winning = source == FromSniper
-
-        if (winning) {
-            listener.sniperWinning()
+        if (source == FromSniper) {
+            snapshot = snapshot.winning(currentPrice)
         } else {
-            auction.bid(currentPrice + increment)
-            listener.sniperBidding()
+            val amount = currentPrice + increment
+            auction.bid(amount)
+            snapshot = snapshot.bidding(currentPrice, amount)
         }
     }
 
-    override fun auctionClosed() = if (winning) listener.sniperWon() else listener.sniperLost()
+    override fun auctionClosed() {
+        snapshot = snapshot.closed
+    }
+
 
 }

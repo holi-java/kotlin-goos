@@ -11,16 +11,18 @@ internal const val JID_FORMAT = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
 
 class Main {
 
+    private lateinit var ui: MainWindow;
+
+    private val snipers = SnipersTableModel()
+
+    private var notBeGcd: Chat? = null
+
     init {
         startUserInterface()
     }
 
-    private lateinit var ui: MainWindow;
-
-    private var notBeGcd: Chat? = null
-
     private fun startUserInterface() {
-        SwingUtilities.invokeAndWait { ui = MainWindow() }
+        SwingUtilities.invokeAndWait { ui = MainWindow(snipers) }
     }
 
     private fun joinAuction(itemId: String, connection: XMPPConnection) {
@@ -28,22 +30,9 @@ class Main {
 
         val chat = connection.chatManager.createChat(connection toAuctionId itemId, null)
         val auction = XMPPAuction(chat)
-        chat.addMessageListener(AuctionMessageTranslator(connection.user, AuctionSniper(auction, SwingThreadSniperListener(SniperStateDisplayer()))))
+        chat.addMessageListener(AuctionMessageTranslator(connection.user, AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers))))
         auction.join()
         notBeGcd = chat
-    }
-
-    inner class SniperStateDisplayer : SniperListener {
-
-        override fun sniperBidding() = show(STATUS_BIDDING)
-
-        override fun sniperWinning() = show(STATUS_WINNING)
-
-        override fun sniperWon() = show(STATUS_WON)
-
-        override fun sniperLost() = show(STATUS_LOST)
-
-        private fun show(status: String) = let { ui.status = status }
     }
 
 

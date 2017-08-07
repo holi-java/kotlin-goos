@@ -1,17 +1,12 @@
 package auctionsniper.ui
 
-import auctionsniper.Main
 import auctionsniper.SniperListener
-import javax.swing.SwingUtilities
+import auctionsniper.SniperSnapshot
+import javax.swing.SwingUtilities.invokeLater
 
-class SwingThreadSniperListener(private val target: Main.SniperStateDisplayer) : SniperListener {
-    override fun sniperBidding() = target::sniperBidding.runInUiThread()
+class SwingThreadSniperListener(private val target: SniperListener) : SniperListener {
+    override fun sniperStateChanged(snapshot: SniperSnapshot) = invokeLater {
+        target.sniperStateChanged(snapshot)
+    }
 
-    override fun sniperWinning() = target::sniperWinning.runInUiThread()
-
-    override fun sniperWon() = target::sniperWon.runInUiThread()
-
-    override fun sniperLost() = target::sniperLost.runInUiThread()
-
-    private fun (() -> Unit).runInUiThread() = SwingUtilities.invokeLater(this)
 }
