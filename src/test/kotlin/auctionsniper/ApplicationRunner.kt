@@ -15,10 +15,7 @@ const val SNIPER_XMPP_ID = "$SNIPER_ID@$XMPP_HOSTNAME/$AUCTION_RESOURCE"
 class ApplicationRunner {
     private var driver: ApplicationDriver? = null
 
-    private lateinit var itemId: String
-
     fun startBiddingIn(auction: FakeAuctionServer) {
-        itemId = auction.itemId
         startSniper(auction)
         driver = ApplicationDriver(SECONDS.toMillis(1))
 
@@ -33,13 +30,13 @@ class ApplicationRunner {
         CompletableFuture.runAsync { Main.main(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD, auction.itemId) }.join()
     }
 
-    fun hasShownSniperIsBidding(lastPrice: Int, lastBid: Int) = driver?.showsSniperStatus(itemId, lastPrice, lastBid, BIDDING)
+    fun hasShownSniperIsBidding(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) = driver?.showsSniperStatus(auction.itemId, lastPrice, lastBid, BIDDING)
 
-    fun hasShownSniperIsWinning(winningBid: Int) = driver?.showsSniperStatus(itemId, winningBid, winningBid, WINNING)
+    fun hasShownSniperIsWinning(auction: FakeAuctionServer, winningBid: Int) = driver?.showsSniperStatus(auction.itemId, winningBid, winningBid, WINNING)
 
-    fun showsSniperHasWonAuction(lastPrice: Int) = driver?.showsSniperStatus(itemId, lastPrice, lastPrice, WON)
+    fun showsSniperHasWonAuction(auction: FakeAuctionServer, lastPrice: Int) = driver?.showsSniperStatus(auction.itemId, lastPrice, lastPrice, WON)
 
-    fun showsSniperHasLostAuction(lastPrice: Int, lastBid: Int) = driver?.showsSniperStatus(itemId, lastPrice, lastBid, LOST)
+    fun showsSniperHasLostAuction(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) = driver?.showsSniperStatus(auction.itemId, lastPrice, lastBid, LOST)
 
     fun stop() {
         driver?.dispose()
