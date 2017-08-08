@@ -1,6 +1,6 @@
 package auctionsniper
 
-import auctionsniper.PriceSource.*
+import auctionsniper.PriceSource.FromSniper
 
 class AuctionSniper(itemId: String,
                     private val auction: Auction,

@@ -4,10 +4,10 @@ package test.auctionsniper
 
 import auctionsniper.AuctionEventListener
 import auctionsniper.AuctionMessageTranslator
-import auctionsniper.PriceSource.*
+import auctionsniper.PriceSource.FromOtherBidder
+import auctionsniper.PriceSource.FromSniper
 import checking
 import org.jivesoftware.smack.packet.Message
-import org.jmock.Expectations.*
 import org.jmock.auto.Mock
 import org.jmock.integration.junit4.JUnitRuleMockery
 import org.junit.Rule

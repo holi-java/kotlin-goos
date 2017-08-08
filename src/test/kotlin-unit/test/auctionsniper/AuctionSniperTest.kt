@@ -10,7 +10,6 @@ import checking
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.hasProperty
-import org.jmock.Expectations
 import org.jmock.States
 import org.jmock.auto.Auto
 import org.jmock.auto.Mock

@@ -2,7 +2,7 @@ package auctionsniper
 
 import auctionsniper.FakeAuctionServer.Companion.XMPP_HOSTNAME
 import auctionsniper.SniperState.*
-import auctionsniper.ui.*
+import auctionsniper.ui.SNIPER_APPLICATION_NAME
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit.SECONDS
 

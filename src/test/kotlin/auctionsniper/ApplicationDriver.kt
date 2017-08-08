@@ -8,10 +8,8 @@ import com.objogate.wl.swing.driver.*
 import com.objogate.wl.swing.gesture.GesturePerformer
 import com.objogate.wl.swing.matcher.IterableComponentsMatcher.matching
 import com.objogate.wl.swing.matcher.JLabelTextMatcher.withLabelText
-import java.util.concurrent.CompletableFuture
 import javax.swing.JButton
 import javax.swing.JTextField
-import javax.swing.SwingUtilities
 import javax.swing.table.JTableHeader
 
 class ApplicationDriver(timeout: Long) :
