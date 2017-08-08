@@ -15,17 +15,17 @@ class ApplicationRunner {
     private var driver: ApplicationDriver? = null
 
     fun startBiddingIn(vararg auctions: FakeAuctionServer) {
-        startSniper(auctions)
+        startSniper()
         driver = ApplicationDriver(SECONDS.toMillis(1)).also { it.hasTitle(SNIPER_APPLICATION_NAME); it.hasColumnTitles() }
 
         for (auction in auctions) {
-            driver!!.showsSniperStatus(auction.itemId, 0, 0, JOINING)
+            driver!!.run { startBiddingFor(auction.itemId); showsSniperStatus(auction.itemId, 0, 0, JOINING) }
         }
     }
 
 
-    private fun startSniper(auctions: Array<out FakeAuctionServer>) {
-        CompletableFuture.runAsync { Main.main(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD, *auctions.map { it.itemId }.toTypedArray()) }.join()
+    private fun startSniper() {
+        CompletableFuture.runAsync { Main.main(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD) }.join()
     }
 
     fun hasShownSniperIsBidding(auction: FakeAuctionServer, lastPrice: Int, lastBid: Int) = driver?.showsSniperStatus(auction.itemId, lastPrice, lastBid, BIDDING)

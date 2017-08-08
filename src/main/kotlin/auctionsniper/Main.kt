@@ -1,6 +1,8 @@
 package auctionsniper
 
-import auctionsniper.ui.*
+import auctionsniper.ui.MainWindow
+import auctionsniper.ui.SnipersTableModel
+import auctionsniper.ui.SwingThreadSniperListener
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import javax.swing.SwingUtilities
@@ -25,19 +27,14 @@ class Main {
         SwingUtilities.invokeAndWait { ui = MainWindow(snipers) }
     }
 
-    private fun joinAuction(itemId: String, connection: XMPPConnection) {
-        safelyAddItemToModel(itemId)
-        
-        val chat = connection.chatManager.createChat(connection toAuctionId itemId, null)
-        val auction = XMPPAuction(chat)
-        chat.addMessageListener(AuctionMessageTranslator(connection.user, AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers))))
-        auction.join()
-        notBeGcd += chat
-    }
-
-    private fun  safelyAddItemToModel(itemId: String) {
-        SwingUtilities.invokeAndWait{
+    private fun addUserRequestListenerFor(connection: XMPPConnection) {
+        ui.addUserRequestListener { itemId ->
             snipers.addSniper(SniperSnapshot.joining(itemId))
+            val chat = connection.chatManager.createChat(connection toAuctionId itemId, null)
+            val auction = XMPPAuction(chat)
+            chat.addMessageListener(AuctionMessageTranslator(connection.user, AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers))))
+            auction.join()
+            notBeGcd += chat
         }
     }
 
@@ -50,9 +47,7 @@ class Main {
             val (hostname, sniper, password) = args
             val connection = connect(hostname, sniper, password)
             main.whenClosed(connection::disconnect)
-            args.drop(3).forEach { itemId ->
-                main.joinAuction(itemId, connection)
-            }
+            main.addUserRequestListenerFor(connection)
             notBeGCd = main
         }
 
