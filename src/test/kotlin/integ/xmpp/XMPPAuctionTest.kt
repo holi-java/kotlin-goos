@@ -1,4 +1,4 @@
-package integ
+package integ.xmpp
 
 import auctionsniper.ApplicationRunner.Companion.SNIPER_ID
 import auctionsniper.ApplicationRunner.Companion.SNIPER_PASSWORD
@@ -7,7 +7,7 @@ import auctionsniper.AuctionEventListener
 import auctionsniper.FakeAuctionServer
 import auctionsniper.FakeAuctionServer.Companion.XMPP_HOSTNAME
 import auctionsniper.PriceSource
-import auctionsniper.XMPPAuction
+import auctionsniper.xmpp.XMPPAuction
 import org.jivesoftware.smack.XMPPConnection
 import org.junit.After
 import org.junit.Before

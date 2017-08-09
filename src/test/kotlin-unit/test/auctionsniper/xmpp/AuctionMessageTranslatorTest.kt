@@ -1,9 +1,9 @@
 @file:Suppress("MemberVisibilityCanPrivate")
 
-package test.auctionsniper
+package test.auctionsniper.xmpp
 
 import auctionsniper.AuctionEventListener
-import auctionsniper.AuctionMessageTranslator
+import auctionsniper.xmpp.AuctionMessageTranslator
 import auctionsniper.PriceSource.FromOtherBidder
 import auctionsniper.PriceSource.FromSniper
 import checking

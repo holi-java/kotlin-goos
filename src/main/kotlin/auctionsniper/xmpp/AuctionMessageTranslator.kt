@@ -1,7 +1,8 @@
-package auctionsniper
+package auctionsniper.xmpp
 
-import auctionsniper.AuctionEvent.Companion.CLOSE_EVENT
-import auctionsniper.AuctionEvent.Companion.PRICE_EVENT
+import auctionsniper.xmpp.AuctionEvent.Companion.CLOSE_EVENT
+import auctionsniper.xmpp.AuctionEvent.Companion.PRICE_EVENT
+import auctionsniper.AuctionEventListener
 import auctionsniper.PriceSource.FromOtherBidder
 import auctionsniper.PriceSource.FromSniper
 import auctionsniper.utils.capitalize

@@ -1,4 +1,4 @@
-package integ
+package integ.ui
 
 import auctionsniper.ApplicationDriver
 import auctionsniper.ui.MainWindow
