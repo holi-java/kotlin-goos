@@ -3,13 +3,12 @@ package auctionsniper
 import auctionsniper.ui.MainWindow
 import auctionsniper.ui.SnipersTableModel
 import auctionsniper.ui.SwingThreadSniperListener
-import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.XMPPConnection
 import javax.swing.SwingUtilities
 
 internal const val AUCTION_RESOURCE = "Auction"
 internal const val ITEM_ID_AS_LOGIN = "auction-%s"
-internal const val JID_FORMAT = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
+@PublishedApi internal const val JID_FORMAT = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
 
 class Main {
 
@@ -17,7 +16,7 @@ class Main {
 
     private val snipers = SnipersTableModel()
 
-    private val notBeGcd: MutableList<Chat> = arrayListOf<Chat>()
+    private val notBeGcd: MutableList<Auction> = mutableListOf()
 
     init {
         startUserInterface()
@@ -30,13 +29,15 @@ class Main {
     private fun addUserRequestListenerFor(connection: XMPPConnection) {
         ui.addUserRequestListener { itemId ->
             snipers.addSniper(SniperSnapshot.joining(itemId))
-            val chat = connection.chatManager.createChat(connection toAuctionId itemId, null)
-            val auction = XMPPAuction(chat)
-            chat.addMessageListener(AuctionMessageTranslator(connection.user, AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers))))
+
+            val auction = XMPPAuction(connection, itemId)
+            auction.addAuctionEventListener(AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers)))
             auction.join()
-            notBeGcd += chat
+
+            notBeGcd += auction
         }
     }
+
 
     private fun whenClosed(action: () -> Unit) = ui.whenClosed(action)
 
@@ -62,5 +63,5 @@ private fun connect(hostname: String, sniper: String, password: String): XMPPCon
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline infix fun XMPPConnection.toAuctionId(itemId: String) = JID_FORMAT.format(itemId, serviceName)
+inline infix fun XMPPConnection.toAuctionId(itemId: String) = JID_FORMAT.format(itemId, serviceName)
 

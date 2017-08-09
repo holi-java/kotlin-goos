@@ -2,7 +2,7 @@
 
 import auctionsniper.ApplicationRunner
 import auctionsniper.FakeAuctionServer
-import auctionsniper.SNIPER_XMPP_ID
+import auctionsniper.ApplicationRunner.Companion.SNIPER_XMPP_ID
 import org.junit.After
 import org.junit.Test
 
