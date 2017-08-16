@@ -28,7 +28,11 @@ class SnipersTableModel : AbstractTableModel(), SniperListener, SniperCollector 
                     .also { if (it < 0) TODO("handle exception when no snapshot for updating") }
 
     override fun addSniper(sniper: AuctionSniper) {
-        snapshots.also { fireTableRowsInserted(it.size, it.size) } += sniper.snapshot
+        snapshots.size.let {
+            snapshots += sniper.snapshot
+            sniper.addSniperListener(SwingThreadSniperListener(this))
+            fireTableRowsInserted(it, it)
+        }
     }
 
     enum class Column(val columnName: String) {
