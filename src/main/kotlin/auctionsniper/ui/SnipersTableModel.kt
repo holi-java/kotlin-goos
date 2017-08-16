@@ -1,11 +1,12 @@
 package auctionsniper.ui
 
 import auctionsniper.AuctionSniper
+import auctionsniper.SniperCollector
 import auctionsniper.SniperListener
 import auctionsniper.SniperSnapshot
 import javax.swing.table.AbstractTableModel
 
-class SnipersTableModel : AbstractTableModel(), SniperListener {
+class SnipersTableModel : AbstractTableModel(), SniperListener, SniperCollector {
 
     private val snapshots: MutableList<SniperSnapshot> = arrayListOf()
     override fun getRowCount() = snapshots.size
@@ -26,7 +27,7 @@ class SnipersTableModel : AbstractTableModel(), SniperListener {
             snapshots.indexOfFirst { it.sameAs(snapshot) }
                     .also { if (it < 0) TODO("handle exception when no snapshot for updating") }
 
-    fun addSniper(sniper: AuctionSniper) {
+    override fun addSniper(sniper: AuctionSniper) {
         snapshots.also { fireTableRowsInserted(it.size, it.size) } += sniper.snapshot
     }
 
