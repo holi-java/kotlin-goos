@@ -8,13 +8,12 @@ fun bidCommand(bid: Int) = aMessage { "Command: BID; Amount: $bid" }
 inline fun aMessage(type: () -> String) = "SOLVersion: 1.1; ${type()}"
 
 class XMPPAuction(connection: XMPPConnection, itemId: String) : Auction {
-    private val chat = connection.chatManager.createChat(connection toAuctionId itemId, null)
-
     private val listeners: MutableList<AuctionEventListener> = mutableListOf()
 
-    init {
-        chat.addMessageListener(translatorFor(connection))
+    private val chat = connection.chatManager.createChat(connection toAuctionId itemId, null).also {
+        it.addMessageListener(translatorFor(connection))
     }
+
 
     private fun translatorFor(connection: XMPPConnection) = AuctionMessageTranslator(connection.user, delegating(listeners))
 
