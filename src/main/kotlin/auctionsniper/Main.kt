@@ -9,8 +9,9 @@ class Main {
 
     private lateinit var ui: MainWindow;
 
-    private val snipers = SnipersTableModel()
-
+    private val portfolio = SniperPortfolio()
+    
+    private val snipers = SnipersTableModel().also { portfolio.addPortfolioListener(it) }
 
     init {
         startUserInterface()
@@ -21,7 +22,7 @@ class Main {
     }
 
     private fun addUserRequestListenerFor(auctionHouse: XMPPAuctionHouse) {
-        ui.addUserRequestListener(SniperLauncher(auctionHouse, SniperPortfolio().apply { addPortfolioListener(snipers) }))
+        ui.addUserRequestListener(SniperLauncher(auctionHouse, portfolio))
     }
 
 
