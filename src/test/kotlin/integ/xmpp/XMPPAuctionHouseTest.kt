@@ -15,7 +15,7 @@ import org.junit.Test
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit.SECONDS
 
-class XMPPAuctionTest {
+class XMPPAuctionHouseTest {
     private val server = FakeAuctionServer("item-54321")
     private val auctionHouse: AuctionHouse by lazy { XMPPAuctionHouse.connect(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD) }
 
