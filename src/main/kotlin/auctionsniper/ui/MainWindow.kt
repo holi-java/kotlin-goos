@@ -18,10 +18,9 @@ const val JOIN_BUTTON_NAME = "Join Auction Button"
 class MainWindow : JFrame {
 
     constructor(portfolio: SniperPortfolio) : super(SNIPER_APPLICATION_NAME) {
-        val snipers = SnipersTableModel().also { portfolio.addPortfolioListener(it) }
         name = MAIN_WINDOW_NAME
         defaultCloseOperation = EXIT_ON_CLOSE
-        fillContents(makeControls(), makeSnipersTable(snipers))
+        fillContents(makeControls(), makeSnipersTable(portfolio))
         pack()
         isVisible = true
     }
@@ -42,9 +41,7 @@ class MainWindow : JFrame {
 
     private fun fillContents(control: JComponent, sniperTable: JTable) = add(control, NORTH).also { add(JScrollPane(sniperTable), CENTER) }
 
-    private fun makeSnipersTable(snipers: SnipersTableModel): JTable {
-        return JTable(snipers);
-    }
+    private fun makeSnipersTable(portfolio: SniperPortfolio) = JTable(SnipersTableModel().also { portfolio.addPortfolioListener(it) })
 
     fun addUserRequestListener(listener: (item: String) -> Unit) = addUserRequestListener(object : UserRequestListener {
         override fun joinAuction(itemId: String) = listener.invoke(itemId)
