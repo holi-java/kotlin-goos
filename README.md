@@ -15,7 +15,7 @@
 - **how** we're growing a design from **what** looks like an unpromising start? alternate, more or less, between adding features and reflecting on - and cleaning up the code that results. we're prepared to defer refactoring code if we're not yet clear **what** to do, confident that we will take the time when we're ready. In the meantime, keep our code as clean as possible, moving in small increments and using techniques such as **null implementation** to minimize the time when it's broken.
 - makes **steady** progress by adding a little slices of functionality at a time.
 - makes it "**working**" is not mean that is "**finished**".
-
+- When we're not sure **what** to do next or **how** to get there from here, one way of coping is to scale down the individual changes we make.
 
 ## Incremental Development
 
@@ -93,3 +93,8 @@ A sense of **urgency** will help the team to **strip** the functionality down to
 ## Defer Decisions
 
 helps us **focus on** the immediate task without getting dragged into thinking about the next significant chunk of functionality.
+
+
+## Dynamic as well as Static Design
+
+We should consider more than one view when refactoring code. Refactoring is, after all, design activity, which means we need them all the time rather than periodically. Refactoring is so focused on static structure (class & interface) that it's easy to lose sight of an application's dynamic structure (instances and threads). Sometimes we just need to step back and draw out an interaction diagram.
