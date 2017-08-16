@@ -7,7 +7,8 @@ class SniperLauncher(private val auctionHouse: AuctionHouse, private val collect
     private val snipers: MutableList<Auction> = mutableListOf()
     override fun joinAuction(itemId: String) {
         val auction = auctionHouse.auctionFor(itemId)
-        val sniper = AuctionSniper(itemId, auction, SwingThreadSniperListener(collector))
+        val sniper = AuctionSniper(itemId, auction)
+        sniper.addSniperListener(SwingThreadSniperListener(collector))
         auction.addAuctionEventListener(sniper)
         auction.join()
         collector.addSniper(sniper)

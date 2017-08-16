@@ -2,14 +2,19 @@ package auctionsniper
 
 import auctionsniper.PriceSource.FromSniper
 
-class AuctionSniper(itemId: String,
-                    private val auction: Auction,
-                    private val listener: SniperListener) : AuctionEventListener {
+private val NONE: SniperListener = object : SniperListener {
+    override fun sniperStateChanged(snapshot: SniperSnapshot) {
 
-    var snapshot: SniperSnapshot = SniperSnapshot.joining(itemId); private set(value) {
-        field = value
-        listener.sniperStateChanged(value)
     }
+}
+
+class AuctionSniper(itemId: String, private val auction: Auction) : AuctionEventListener {
+    private val listeners by lazy { mutableListOf<SniperListener>() }
+    var snapshot: SniperSnapshot = SniperSnapshot.joining(itemId)
+        private set(value) {
+            field = value
+            listeners.forEach { it.sniperStateChanged(value) }
+        }
 
     override fun currentPrice(currentPrice: Int, increment: Int, source: PriceSource) {
         if (source == FromSniper) {
@@ -25,5 +30,7 @@ class AuctionSniper(itemId: String,
         snapshot = snapshot.closed
     }
 
-
+    fun addSniperListener(listener: SniperListener) {
+        listeners += listener
+    }
 }

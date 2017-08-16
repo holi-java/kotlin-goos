@@ -88,7 +88,7 @@ class SnipersTableModelTest {
         assert.that(snapshotAt(1), equalTo(sniper2.snapshot))
     }
 
-    private fun sniper(itemId: String) = AuctionSniper(itemId, unused(), unused())
+    private fun sniper(itemId: String) = AuctionSniper(itemId, unused())
 
     @Test
     fun `update correct rows for snipers`() {

@@ -27,7 +27,7 @@ class AuctionSniperTest {
     @Auto lateinit var sniperState: States
 
 
-    val sniper by lazy { AuctionSniper(ITEM_ID, auction, listener) }
+    val sniper by lazy { AuctionSniper(ITEM_ID, auction).apply{ addSniperListener(listener)  } }
 
 
     @Test
