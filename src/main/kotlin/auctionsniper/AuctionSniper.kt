@@ -2,12 +2,6 @@ package auctionsniper
 
 import auctionsniper.PriceSource.FromSniper
 
-private val NONE: SniperListener = object : SniperListener {
-    override fun sniperStateChanged(snapshot: SniperSnapshot) {
-
-    }
-}
-
 class AuctionSniper(itemId: String, private val auction: Auction) : AuctionEventListener {
     private val listeners by lazy { mutableListOf<SniperListener>() }
     var snapshot: SniperSnapshot = SniperSnapshot.joining(itemId)
