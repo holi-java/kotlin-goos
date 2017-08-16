@@ -10,15 +10,13 @@ class Main {
     private lateinit var ui: MainWindow;
 
     private val portfolio = SniperPortfolio()
-    
-    private val snipers = SnipersTableModel().also { portfolio.addPortfolioListener(it) }
 
     init {
         startUserInterface()
     }
 
     private fun startUserInterface() {
-        SwingUtilities.invokeAndWait { ui = MainWindow(snipers) }
+        SwingUtilities.invokeAndWait { ui = MainWindow(SnipersTableModel().also { portfolio.addPortfolioListener(it) }) }
     }
 
     private fun addUserRequestListenerFor(auctionHouse: XMPPAuctionHouse) {
