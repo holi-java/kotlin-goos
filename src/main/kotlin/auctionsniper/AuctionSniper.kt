@@ -6,7 +6,7 @@ class AuctionSniper(itemId: String,
                     private val auction: Auction,
                     private val listener: SniperListener) : AuctionEventListener {
 
-    private var snapshot: SniperSnapshot = SniperSnapshot.joining(itemId); set(value) {
+    var snapshot: SniperSnapshot = SniperSnapshot.joining(itemId); private set(value) {
         field = value
         listener.sniperStateChanged(value)
     }

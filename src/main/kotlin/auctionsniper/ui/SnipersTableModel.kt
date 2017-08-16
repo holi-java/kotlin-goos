@@ -1,5 +1,6 @@
 package auctionsniper.ui
 
+import auctionsniper.AuctionSniper
 import auctionsniper.SniperListener
 import auctionsniper.SniperSnapshot
 import javax.swing.table.AbstractTableModel
@@ -29,6 +30,8 @@ class SnipersTableModel : AbstractTableModel(), SniperListener {
         snapshots.also { fireTableRowsInserted(it.size, it.size) } += snapshot
     }
 
+    fun addSniper(sniper: AuctionSniper) = addSniper(sniper.snapshot)
+
     enum class Column(val columnName: String) {
         IDENTIFIER("Item") {
             override fun valueIn(snapshot: SniperSnapshot) = snapshot.itemId
@@ -41,10 +44,12 @@ class SnipersTableModel : AbstractTableModel(), SniperListener {
         },
         SNIPER_STATUS("State") {
             override fun valueIn(snapshot: SniperSnapshot) = snapshot.state.name
+
         };
 
         companion object {
             fun at(index: Int) = values()[index]
+
         }
 
         abstract fun valueIn(snapshot: SniperSnapshot): Any

@@ -2,7 +2,6 @@ package auctionsniper
 
 import auctionsniper.ui.MainWindow
 import auctionsniper.ui.SnipersTableModel
-import auctionsniper.ui.SwingThreadSniperListener
 import auctionsniper.xmpp.XMPPAuctionHouse
 import javax.swing.SwingUtilities
 
@@ -12,7 +11,6 @@ class Main {
 
     private val snipers = SnipersTableModel()
 
-    private val notBeGcd: MutableList<Auction> = mutableListOf()
 
     init {
         startUserInterface()
@@ -23,15 +21,7 @@ class Main {
     }
 
     private fun addUserRequestListenerFor(auctionHouse: XMPPAuctionHouse) {
-        ui.addUserRequestListener { itemId ->
-            snipers.addSniper(SniperSnapshot.joining(itemId))
-
-            val auction = auctionHouse.auctionFor(itemId)
-            auction.addAuctionEventListener(AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers)))
-            auction.join()
-
-            notBeGcd += auction
-        }
+        ui.addUserRequestListener(SniperLauncher(auctionHouse, snipers))
     }
 
 
