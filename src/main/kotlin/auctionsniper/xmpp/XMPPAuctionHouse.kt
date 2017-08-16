@@ -1,8 +1,9 @@
 package auctionsniper.xmpp
 
-import auctionsniper.AUCTION_RESOURCE
 import auctionsniper.AuctionHouse
 import org.jivesoftware.smack.XMPPConnection
+internal const val AUCTION_RESOURCE = "Auction"
+internal const val ITEM_ID_AS_LOGIN = "auction-%s"
 
 class XMPPAuctionHouse private constructor(val connection: XMPPConnection) : AuctionHouse {
     companion object {
@@ -15,3 +16,6 @@ class XMPPAuctionHouse private constructor(val connection: XMPPConnection) : Auc
 
     override fun auctionFor(itemId: String) = XMPPAuction(connection, itemId)
 }
+
+
+

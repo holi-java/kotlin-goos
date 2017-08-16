@@ -5,7 +5,12 @@ import org.jivesoftware.smack.XMPPConnection
 
 val JOIN_COMMAND = aMessage { "Command:JOIN;" }
 fun bidCommand(bid: Int) = aMessage { "Command: BID; Amount: $bid" }
-inline fun aMessage(type: () -> String) = "SOLVersion: 1.1; ${type()}"
+inline fun aMessage(event: () -> String) = "SOLVersion: 1.1; ${event()}"
+
+private const val JID_FORMAT = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
+
+@Suppress("NOTHING_TO_INLINE")
+private inline infix fun XMPPConnection.toAuctionId(itemId: String) = JID_FORMAT.format(itemId, serviceName)
 
 class XMPPAuction(connection: XMPPConnection, itemId: String) : Auction {
     private val listeners: MutableList<AuctionEventListener> = mutableListOf()

@@ -1,8 +1,6 @@
 package auctionsniper
 
-import auctionsniper.xmpp.JOIN_COMMAND
-import auctionsniper.xmpp.aMessage
-import auctionsniper.xmpp.bidCommand
+import auctionsniper.xmpp.*
 import com.natpryce.hamkrest.Matcher
 import com.natpryce.hamkrest.assertion.assert
 import com.natpryce.hamkrest.equalTo

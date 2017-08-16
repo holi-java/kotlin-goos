@@ -4,12 +4,7 @@ import auctionsniper.ui.MainWindow
 import auctionsniper.ui.SnipersTableModel
 import auctionsniper.ui.SwingThreadSniperListener
 import auctionsniper.xmpp.XMPPAuctionHouse
-import org.jivesoftware.smack.XMPPConnection
 import javax.swing.SwingUtilities
-
-internal const val AUCTION_RESOURCE = "Auction"
-internal const val ITEM_ID_AS_LOGIN = "auction-%s"
-@PublishedApi internal const val JID_FORMAT = "$ITEM_ID_AS_LOGIN@%s/$AUCTION_RESOURCE"
 
 class Main {
 
@@ -56,7 +51,4 @@ class Main {
     }
 }
 
-
-@Suppress("NOTHING_TO_INLINE")
-inline infix fun XMPPConnection.toAuctionId(itemId: String) = JID_FORMAT.format(itemId, serviceName)
 

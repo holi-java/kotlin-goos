@@ -3,6 +3,7 @@ package auctionsniper
 import auctionsniper.FakeAuctionServer.Companion.XMPP_HOSTNAME
 import auctionsniper.SniperState.*
 import auctionsniper.ui.SNIPER_APPLICATION_NAME
+import auctionsniper.xmpp.AUCTION_RESOURCE
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit.SECONDS
 
@@ -13,7 +14,7 @@ class ApplicationRunner {
     companion object {
         const val SNIPER_ID = "sniper"
         const val SNIPER_PASSWORD = "sniper"
-        const val SNIPER_XMPP_ID = "$SNIPER_ID@$XMPP_HOSTNAME/$AUCTION_RESOURCE"
+        const val SNIPER_XMPP_ID = "$SNIPER_ID@$XMPP_HOSTNAME/${AUCTION_RESOURCE}"
     }
 
     fun startBiddingIn(vararg auctions: FakeAuctionServer) {
