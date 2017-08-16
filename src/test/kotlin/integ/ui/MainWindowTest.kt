@@ -1,6 +1,7 @@
 package integ.ui
 
 import auctionsniper.ApplicationDriver
+import auctionsniper.SniperPortfolio
 import auctionsniper.ui.MainWindow
 import auctionsniper.ui.SnipersTableModel
 import com.objogate.wl.swing.probe.ValueMatcherProbe
@@ -9,7 +10,7 @@ import org.junit.After
 import org.junit.Test
 
 class MainWindowTest {
-    val ui = MainWindow(SnipersTableModel())
+    val ui = MainWindow(SniperPortfolio())
     val driver = ApplicationDriver(1000)
 
     @Test
