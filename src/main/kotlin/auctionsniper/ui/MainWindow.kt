@@ -1,5 +1,6 @@
 package auctionsniper.ui
 
+import auctionsniper.SniperPortfolio
 import auctionsniper.UserRequestListener
 import java.awt.BorderLayout.CENTER
 import java.awt.BorderLayout.NORTH
@@ -15,6 +16,8 @@ const val ITEM_ID_FIELD_NAME = "Item Id"
 const val JOIN_BUTTON_NAME = "Join Auction Button"
 
 class MainWindow constructor(snipers: SnipersTableModel) : JFrame(SNIPER_APPLICATION_NAME) {
+    constructor(portfolio: SniperPortfolio) : this(SnipersTableModel().also { portfolio.addPortfolioListener(it) })
+
     private val listeners = arrayListOf<UserRequestListener>()
 
     init {

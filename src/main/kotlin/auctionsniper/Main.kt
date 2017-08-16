@@ -16,7 +16,7 @@ class Main {
     }
 
     private fun startUserInterface() {
-        SwingUtilities.invokeAndWait { ui = MainWindow(SnipersTableModel().also { portfolio.addPortfolioListener(it) }) }
+        SwingUtilities.invokeAndWait { ui = MainWindow(portfolio) }
     }
 
     private fun addUserRequestListenerFor(auctionHouse: XMPPAuctionHouse) {
