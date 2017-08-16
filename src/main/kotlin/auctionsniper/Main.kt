@@ -21,7 +21,7 @@ class Main {
     }
 
     private fun addUserRequestListenerFor(auctionHouse: XMPPAuctionHouse) {
-        ui.addUserRequestListener(SniperLauncher(auctionHouse, snipers))
+        ui.addUserRequestListener(SniperLauncher(auctionHouse, SniperPortfolio().apply { addPortfolioListener(snipers) }))
     }
 
 

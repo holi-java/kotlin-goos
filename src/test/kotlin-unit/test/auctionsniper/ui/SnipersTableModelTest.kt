@@ -16,7 +16,6 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.hasProperty
 import org.hamcrest.Matchers.samePropertyValuesAs
 import org.jmock.States
-import org.jmock.auto.Auto
 import org.jmock.auto.Mock
 import org.jmock.integration.junit4.JUnitRuleMockery
 import org.jmock.lib.concurrent.Synchroniser
@@ -57,7 +56,7 @@ class SnipersTableModelTest {
         val sniper = sniper("item id")
 
         context.checking { -> allowing(listener).tableChanged(with(anyInsertionEvent())) }
-        snipers.addSniper(sniper)
+        snipers.sniperAdded(sniper)
 
         context.checking { -> atLeast(1).of(listener).tableChanged(with(aChangeInRow(0)));then(sniperState.`is`("bidding")) }
 
@@ -75,7 +74,7 @@ class SnipersTableModelTest {
             atLeast(1).of(listener).tableChanged(with(anInsertionRowAt(0)))
         }
 
-        snipers.addSniper(sniper("item id"))
+        snipers.sniperAdded(sniper("item id"))
 
         assert.that(snipers.rowCount, equalTo(1))
         assert.that(snapshotAt(0), equalTo(sniper("item id").snapshot))
@@ -87,8 +86,8 @@ class SnipersTableModelTest {
         val sniper1 = sniper("item id")
         val sniper2 = sniper("item-2")
 
-        snipers.addSniper(sniper1)
-        snipers.addSniper(sniper2)
+        snipers.sniperAdded(sniper1)
+        snipers.sniperAdded(sniper2)
 
         assert.that(snapshotAt(0), equalTo(sniper1.snapshot))
         assert.that(snapshotAt(1), equalTo(sniper2.snapshot))
@@ -101,8 +100,8 @@ class SnipersTableModelTest {
         val bidding = sniper2.snapshot.bidding(123, 45)
 
         context.checking { -> allowing(listener).tableChanged(with(anyInsertionEvent())) }
-        snipers.addSniper(sniper1)
-        snipers.addSniper(sniper2)
+        snipers.sniperAdded(sniper1)
+        snipers.sniperAdded(sniper2)
 
         context.checking { -> atLeast(1).of(listener).tableChanged(with(aChangeInRow(1))) }
 
