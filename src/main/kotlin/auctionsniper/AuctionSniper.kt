@@ -4,6 +4,7 @@ import auctionsniper.PriceSource.FromSniper
 
 class AuctionSniper(itemId: String, private val auction: Auction) : AuctionEventListener {
     private val listeners by lazy { mutableListOf<SniperListener>() }
+
     var snapshot: SniperSnapshot = SniperSnapshot.joining(itemId)
         private set(value) {
             field = value
