@@ -9,6 +9,8 @@ import javax.swing.table.AbstractTableModel
 class SnipersTableModel : AbstractTableModel(), SniperListener, SniperCollector {
 
     private val snapshots: MutableList<SniperSnapshot> = arrayListOf()
+    private val snipers: MutableList<AuctionSniper> = mutableListOf()
+
     override fun getRowCount() = snapshots.size
 
     override fun getColumnCount() = Column.values().size
@@ -30,6 +32,7 @@ class SnipersTableModel : AbstractTableModel(), SniperListener, SniperCollector 
     override fun addSniper(sniper: AuctionSniper) {
         snapshots.size.let {
             snapshots += sniper.snapshot
+            snipers += sniper
             sniper.addSniperListener(SwingThreadSniperListener(this))
             fireTableRowsInserted(it, it)
         }
