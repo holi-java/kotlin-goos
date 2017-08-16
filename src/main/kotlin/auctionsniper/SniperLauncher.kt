@@ -6,8 +6,8 @@ class SniperLauncher(private val auctionHouse: AuctionHouse, private val collect
         val auction = auctionHouse.auctionFor(itemId)
         val sniper = AuctionSniper(itemId, auction)
         auction.addAuctionEventListener(sniper)
-        auction.join()
         collector.addSniper(sniper)
+        auction.join()
         snipers += sniper
     }
 }
