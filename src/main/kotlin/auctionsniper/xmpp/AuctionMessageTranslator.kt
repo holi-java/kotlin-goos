@@ -1,13 +1,13 @@
 package auctionsniper.xmpp
 
-import auctionsniper.xmpp.AuctionEvent.Companion.CLOSE_EVENT
-import auctionsniper.xmpp.AuctionEvent.Companion.PRICE_EVENT
 import auctionsniper.AuctionEventListener
 import auctionsniper.PriceSource.FromOtherBidder
 import auctionsniper.PriceSource.FromSniper
 import auctionsniper.utils.capitalize
 import auctionsniper.utils.required
 import auctionsniper.utils.split
+import auctionsniper.xmpp.AuctionEvent.Companion.CLOSE_EVENT
+import auctionsniper.xmpp.AuctionEvent.Companion.PRICE_EVENT
 import org.jivesoftware.smack.Chat
 import org.jivesoftware.smack.MessageListener
 import org.jivesoftware.smack.packet.Message

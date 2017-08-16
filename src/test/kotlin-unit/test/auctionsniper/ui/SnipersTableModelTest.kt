@@ -3,7 +3,7 @@
 package test.auctionsniper.ui
 
 import auctionsniper.AuctionSniper
-import auctionsniper.PriceSource.*
+import auctionsniper.PriceSource.FromOtherBidder
 import auctionsniper.SniperSnapshot
 import auctionsniper.SniperState
 import auctionsniper.ui.SnipersTableModel

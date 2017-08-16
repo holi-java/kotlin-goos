@@ -1,6 +1,8 @@
 package auctionsniper.xmpp
 
-import auctionsniper.*
+import auctionsniper.Auction
+import auctionsniper.AuctionEventListener
+import auctionsniper.PriceSource
 import org.jivesoftware.smack.XMPPConnection
 
 val JOIN_COMMAND = aMessage { "Command:JOIN;" }

@@ -1,8 +1,8 @@
 @file:Suppress("MemberVisibilityCanPrivate")
 
 import auctionsniper.ApplicationRunner
-import auctionsniper.FakeAuctionServer
 import auctionsniper.ApplicationRunner.Companion.SNIPER_XMPP_ID
+import auctionsniper.FakeAuctionServer
 import org.junit.After
 import org.junit.Test
 

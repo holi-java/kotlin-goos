@@ -3,9 +3,9 @@
 package test.auctionsniper.xmpp
 
 import auctionsniper.AuctionEventListener
-import auctionsniper.xmpp.AuctionMessageTranslator
 import auctionsniper.PriceSource.FromOtherBidder
 import auctionsniper.PriceSource.FromSniper
+import auctionsniper.xmpp.AuctionMessageTranslator
 import checking
 import org.jivesoftware.smack.packet.Message
 import org.jmock.auto.Mock

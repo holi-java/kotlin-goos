@@ -3,7 +3,6 @@ package integ.ui
 import auctionsniper.ApplicationDriver
 import auctionsniper.SniperPortfolio
 import auctionsniper.ui.MainWindow
-import auctionsniper.ui.SnipersTableModel
 import com.objogate.wl.swing.probe.ValueMatcherProbe
 import org.hamcrest.Matchers.equalTo
 import org.junit.After

@@ -6,7 +6,6 @@ import auctionsniper.AuctionSniper
 import auctionsniper.SniperPortfolio
 import auctionsniper.SniperPortfolioListener
 import checking
-import org.jmock.auto.Mock
 import org.jmock.integration.junit4.JUnitRuleMockery
 import org.junit.Rule
 import org.junit.Test
