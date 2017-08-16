@@ -4,11 +4,11 @@ import auctionsniper.ApplicationRunner.Companion.SNIPER_ID
 import auctionsniper.ApplicationRunner.Companion.SNIPER_PASSWORD
 import auctionsniper.ApplicationRunner.Companion.SNIPER_XMPP_ID
 import auctionsniper.AuctionEventListener
+import auctionsniper.AuctionHouse
 import auctionsniper.FakeAuctionServer
 import auctionsniper.FakeAuctionServer.Companion.XMPP_HOSTNAME
 import auctionsniper.PriceSource
-import auctionsniper.xmpp.XMPPAuction
-import org.jivesoftware.smack.XMPPConnection
+import auctionsniper.xmpp.XMPPAuctionHouse
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -17,19 +17,15 @@ import java.util.concurrent.TimeUnit.SECONDS
 
 class XMPPAuctionTest {
     private val server = FakeAuctionServer("item-54321")
-    private val connection by lazy {
-        XMPPConnection(XMPP_HOSTNAME).apply {
-            connect()
-            login(SNIPER_ID, SNIPER_PASSWORD, "Auction")
-        }
-    }
+    private val auctionHouse: AuctionHouse by lazy { XMPPAuctionHouse.connect(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD) }
 
-    @Before fun `start server`() = server.startSellingItem()
+    @Before
+    fun `start server`() = server.startSellingItem()
 
     @Test
     fun `retrieves events from auction server after joining`() {
         val closed = CountDownLatch(1)
-        val auction = XMPPAuction(connection, server.itemId).apply { addAuctionEventListener(counting(closed)) }
+        val auction = auctionHouse.auctionFor(server.itemId).apply { addAuctionEventListener(counting(closed)) }
 
         auction.join()
         server.hasReceivedJoinRequestFromSniper(SNIPER_XMPP_ID)
@@ -46,7 +42,11 @@ class XMPPAuctionTest {
         }
     }
 
-    @After fun `stop server`() = server.close()
-    @After fun `stop connection`() = connection.disconnect()
+    @After
+    fun `stop server`() = server.close()
+
+    @After
+    fun `stop connection`() = auctionHouse.disconnect()
 
 }
+

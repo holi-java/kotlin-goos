@@ -3,7 +3,7 @@ package auctionsniper
 import auctionsniper.ui.MainWindow
 import auctionsniper.ui.SnipersTableModel
 import auctionsniper.ui.SwingThreadSniperListener
-import auctionsniper.xmpp.XMPPAuction
+import auctionsniper.xmpp.XMPPAuctionHouse
 import org.jivesoftware.smack.XMPPConnection
 import javax.swing.SwingUtilities
 
@@ -27,11 +27,11 @@ class Main {
         SwingUtilities.invokeAndWait { ui = MainWindow(snipers) }
     }
 
-    private fun addUserRequestListenerFor(connection: XMPPConnection) {
+    private fun addUserRequestListenerFor(auctionHouse: XMPPAuctionHouse) {
         ui.addUserRequestListener { itemId ->
             snipers.addSniper(SniperSnapshot.joining(itemId))
 
-            val auction = XMPPAuction(connection, itemId)
+            val auction = auctionHouse.auctionFor(itemId)
             auction.addAuctionEventListener(AuctionSniper(itemId, auction, SwingThreadSniperListener(snipers)))
             auction.join()
 
@@ -47,21 +47,15 @@ class Main {
         fun main(vararg args: String): Unit {
             val main = Main()
             val (hostname, sniper, password) = args
-            val connection = connect(hostname, sniper, password)
-            main.whenClosed(connection::disconnect)
-            main.addUserRequestListenerFor(connection)
+            val auctionHouse = XMPPAuctionHouse.connect(hostname, sniper, password)
+            main.whenClosed(auctionHouse::disconnect)
+            main.addUserRequestListenerFor(auctionHouse)
             notBeGCd = main
         }
 
     }
 }
 
-private fun connect(hostname: String, sniper: String, password: String): XMPPConnection {
-    return XMPPConnection(hostname).apply {
-        connect()
-        login(sniper, password, AUCTION_RESOURCE)
-    }
-}
 
 @Suppress("NOTHING_TO_INLINE")
 inline infix fun XMPPConnection.toAuctionId(itemId: String) = JID_FORMAT.format(itemId, serviceName)
