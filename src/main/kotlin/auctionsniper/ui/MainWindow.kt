@@ -15,18 +15,17 @@ const val SNIPER_APPLICATION_NAME = "Sniper Application"
 const val ITEM_ID_FIELD_NAME = "Item Id"
 const val JOIN_BUTTON_NAME = "Join Auction Button"
 
-class MainWindow : JFrame {
+class MainWindow(portfolio: SniperPortfolio) : JFrame(SNIPER_APPLICATION_NAME) {
 
-    constructor(portfolio: SniperPortfolio) : super(SNIPER_APPLICATION_NAME) {
+    private val listeners = arrayListOf<UserRequestListener>()
+
+    init {
         name = MAIN_WINDOW_NAME
         defaultCloseOperation = EXIT_ON_CLOSE
         fillContents(makeControls(), makeSnipersTable(portfolio))
         pack()
         isVisible = true
     }
-
-    private val listeners = arrayListOf<UserRequestListener>()
-
 
     private fun makeControls() = JPanel(FlowLayout(LEFT)).apply {
         val itemField = JTextField(20).apply { name = ITEM_ID_FIELD_NAME }
@@ -56,6 +55,7 @@ class MainWindow : JFrame {
             override fun windowClosed(e: WindowEvent?) = action()
         })
     }
+
 
 }
 
