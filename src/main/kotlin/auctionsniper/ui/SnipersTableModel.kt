@@ -26,11 +26,9 @@ class SnipersTableModel : AbstractTableModel(), SniperListener {
             snapshots.indexOfFirst { it.sameAs(snapshot) }
                     .also { if (it < 0) TODO("handle exception when no snapshot for updating") }
 
-    fun addSniper(snapshot: SniperSnapshot) {
-        snapshots.also { fireTableRowsInserted(it.size, it.size) } += snapshot
+    fun addSniper(sniper: AuctionSniper) {
+        snapshots.also { fireTableRowsInserted(it.size, it.size) } += sniper.snapshot
     }
-
-    fun addSniper(sniper: AuctionSniper) = addSniper(sniper.snapshot)
 
     enum class Column(val columnName: String) {
         IDENTIFIER("Item") {

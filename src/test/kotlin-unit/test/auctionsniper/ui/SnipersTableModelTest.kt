@@ -2,6 +2,7 @@
 
 package test.auctionsniper.ui
 
+import auctionsniper.AuctionSniper
 import auctionsniper.SniperSnapshot
 import auctionsniper.SniperState
 import auctionsniper.ui.SnipersTableModel
@@ -17,12 +18,14 @@ import org.jmock.auto.Mock
 import org.jmock.integration.junit4.JUnitRuleMockery
 import org.junit.Rule
 import org.junit.Test
+import test.unused
 import javax.swing.event.TableModelEvent
 import javax.swing.event.TableModelEvent.*
 import javax.swing.event.TableModelListener
 
 class SnipersTableModelTest {
-    @get:Rule val context = JUnitRuleMockery()
+    @get:Rule
+    val context = JUnitRuleMockery()
     @Mock lateinit var listener: TableModelListener
 
     val snipers by lazy {
@@ -45,10 +48,11 @@ class SnipersTableModelTest {
 
     @Test
     fun `sets up sniper values in columns`() {
-        val snapshot = SniperSnapshot.joining("item id")
-        val bidding = snapshot.bidding(1000, 1098)
+        val sniper = sniper("item id").snapshot
+        val bidding = sniper.bidding(1000, 1098)
+
         context.checking { -> allowing(listener).tableChanged(with(anyInsertionEvent())) }
-        snipers.addSniper(snapshot)
+        snipers.addSniper(sniper("item id"))
 
         context.checking { -> atLeast(1).of(listener).tableChanged(with(aChangeInRow(0))) }
 
@@ -59,37 +63,39 @@ class SnipersTableModelTest {
 
     @Test
     fun `notifies listener when adding a sniper`() {
-        val snapshot = SniperSnapshot.joining("ITEM")
         assert.that(snipers.rowCount, equalTo(0))
 
         context.checking { ->
             atLeast(1).of(listener).tableChanged(with(anInsertionRowAt(0)))
         }
 
-        snipers.addSniper(snapshot)
+        snipers.addSniper(sniper("item id"))
 
         assert.that(snipers.rowCount, equalTo(1))
-        assert.that(snapshotAt(0), equalTo(snapshot))
+        assert.that(snapshotAt(0), equalTo(sniper("item id").snapshot))
     }
 
     @Test
     fun `holds snipers in addition order`() {
         context.checking { -> ignoring(listener) }
-        val sniper1 = SniperSnapshot.joining("item-1")
-        val sniper2 = SniperSnapshot.joining("item-2")
+        val sniper1 = sniper("item id")
+        val sniper2 = sniper("item-2")
 
         snipers.addSniper(sniper1)
         snipers.addSniper(sniper2)
 
-        assert.that(snapshotAt(0), equalTo(sniper1))
-        assert.that(snapshotAt(1), equalTo(sniper2))
+        assert.that(snapshotAt(0), equalTo(sniper1.snapshot))
+        assert.that(snapshotAt(1), equalTo(sniper2.snapshot))
     }
+
+    private fun sniper(itemId: String) = AuctionSniper(itemId, unused(), unused())
 
     @Test
     fun `update correct rows for snipers`() {
-        val sniper1 = SniperSnapshot.joining("item-1")
-        val sniper2 = SniperSnapshot.joining("item-2")
-        val bidding = sniper2.bidding(123, 45)
+        val sniper1 = sniper("item-1")
+        val sniper2 = sniper("item-2")
+        val bidding = sniper2.snapshot.bidding(123, 45)
+
         context.checking { -> allowing(listener).tableChanged(with(anyInsertionEvent())) }
         snipers.addSniper(sniper1)
         snipers.addSniper(sniper2)
@@ -98,7 +104,7 @@ class SnipersTableModelTest {
 
         snipers.sniperStateChanged(bidding)
 
-        assert.that(snapshotAt(0), equalTo(sniper1))
+        assert.that(snapshotAt(0), equalTo(sniper1.snapshot))
         assert.that(snapshotAt(1), equalTo(bidding))
     }
 
