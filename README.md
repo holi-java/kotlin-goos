@@ -74,7 +74,7 @@ e.g: use a single instance variable `currentChat` to hold the chat object.
   focusing on just **one aspect** at a time helps us to make sure we understand it.
   
 - writing a small amount of **ugly** code and seeing **how** it falls out.
-  it helps us to **test** our ideas before we've gone too bar, and sometimes the results can be surprising.
+  it helps us to **test** our ideas before we've gone too far, and sometimes the results can be surprising.
 
 ## The Necessary Minimum 
 
